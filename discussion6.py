@@ -23,15 +23,16 @@ def load_csv(f):
     
     with open(full_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        headers = next(reader)
-
+        header = next(reader)
+        
+        for year in header[1:]:
+            data[year] = {}
+            
         for row in reader:
-            year = row[0]
-            if year not in data:
-                data[year] = {}
-            for i in range(1, len(headers)):
-                data[year][headers[i]] = row[i]  
-
+            month = row[0]
+            for idx, year in enumerate(header[1:], start=1):
+                data[year][month] = row[idx]
+                
     return data
 
 def get_annual_max(d):
